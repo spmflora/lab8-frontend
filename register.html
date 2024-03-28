@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="register.css">
+    <title>Account Registration Page</title>
+  </head>
+  <body>
+    <ul class="topnav">
+        <li><a class="active" href="index.html">Home</a></li>
+        <li><a href="add.html">Add ducks</a></li>        
+        <li><a href="search.html">Search ducks</a></li>
+        <li><a href="pond.html">Pond</a></li>
+    </ul>
+
+    <form id="myform">
+        <div class="container">
+          <h1>Register</h1>
+          <p>Please fill in this form to create an account.</p>
+          <hr>
+      
+          <label for="email"><b>Email</b></label>
+          <input type="text" placeholder="Enter Email" name="email" id="email" required />
+      
+          <label for="psw"><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" name="psw" id="psw" required />
+      
+          <label for="username"><b>Username</b></label>
+          <input type="text" placeholder="username" name="username" id="username" required />
+          <hr>
+      
+          <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+          <button type="submit" class="registerbtn" onclick="addUser()">Register</button>
+        </div>
+      
+        <div class="container signin">
+          <p>Already have an account? <a href="#">Sign in</a>.</p>
+        </div>
+    </form>
+
+    <script>
+        let host = "https://lab6-latest-1-t4wh.onrender.com";
+        async function addUser(){
+            event.preventDefault();
+            let message = "";
+            let em = document.getElementById("email").value;
+            let pass = document.getElementById("psw").value;
+            let user = document.getElementById("username").value;
+            let customer = {username: user, password: pass, email: em};
+
+            console.log("You Entered:" + JSON.stringify(customer));
+
+            let request = {
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(customer)
+            };
+
+            let response = await fetch(host + "/signup", request);
+            if(response.status == 200){
+                message = "Signup Completed! Rerouting you to login page.";
+                console.log(message);
+                window.location.href ="login.html";
+            } else{
+                message = "Something went wrong! Signup could not be completed.";
+                console.log(message);
+            }
+            
+        }
+    </script>
+  </body>
+</html>
